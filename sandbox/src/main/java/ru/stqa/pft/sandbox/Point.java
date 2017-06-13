@@ -1,4 +1,4 @@
-package ru.stqa.pft.lesson2;
+package ru.stqa.pft.sandbox;
 
 public class Point {
 

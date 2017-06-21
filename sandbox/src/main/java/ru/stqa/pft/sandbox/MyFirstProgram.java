@@ -15,4 +15,5 @@ public class MyFirstProgram {
 		// решение через метод
 		System.out.println("Расстояние между точками p1 (x = "+ p1.x+", y = "+ p1.y +") и p2 (x = "+ p2.x+", y = "+ p2.y +") равно "+ p1.distance(p2));
 	}
+
 }

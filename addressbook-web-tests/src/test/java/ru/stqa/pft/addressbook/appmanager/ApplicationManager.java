@@ -29,7 +29,7 @@ public class ApplicationManager {
             wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true));
         } else if (Objects.equals(browser, BrowserType.CHROME)){
             wd = new ChromeDriver();
-        }else if (Objects.equals(browser, BrowserType.CHROME)){
+        }else if (Objects.equals(browser, BrowserType.IE)){
             wd = new InternetExplorerDriver();
         }
 

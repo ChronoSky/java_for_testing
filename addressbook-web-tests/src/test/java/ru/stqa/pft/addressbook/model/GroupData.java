@@ -14,6 +14,13 @@ public class GroupData {
         this.footer = footer;
     }
 
+    public GroupData(int id , String name, String header, String footer) {
+        this.id = id;
+        this.name = name;
+        this.header = header;
+        this.footer = footer;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -27,13 +34,6 @@ public class GroupData {
     @Override
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
-    }
-
-    public GroupData(int id , String name, String header, String footer) {
-        this.id = id;
-        this.name = name;
-        this.header = header;
-        this.footer = footer;
     }
 
     @Override

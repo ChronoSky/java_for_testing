@@ -12,9 +12,9 @@ public class ContactModificationTests extends TestBase{
 
     @Test
     public void testContactModification(){
-        app.getNavigationHelper().goToHomePage();
+        app.goTo().goToHomePage();
         if (!app.getContactHelper().isThereAContact()){
-            app.getNavigationHelper().goToContactPage();
+            app.goTo().goToContactPage();
             app.getContactHelper().createContact(new ContactData("Andrey", "Nikolaevich", "Zakrenichnyy", "", "zik2004@mail.ru", "1234567" , "test1"), true);
         }
         List<ContactData> before = app.getContactHelper().getContactList();
@@ -23,7 +23,7 @@ public class ContactModificationTests extends TestBase{
         ContactData contact = new ContactData(before.get(before.size()-1).getId(),"No_name", "No_name", "No_name", "No_adress", "No_email", "No_phone", null);
         app.getContactHelper().fillContactForm(contact, false);
         app.getContactHelper().submitContactModification();
-        app.getNavigationHelper().goToHomePage();
+        app.goTo().goToHomePage();
         List<ContactData> after = app.getContactHelper().getContactList();
         Assert.assertEquals(after.size(), before.size());
 

@@ -9,9 +9,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 
 public class ContactHelper extends HelperBase{
 
@@ -50,6 +54,13 @@ public class ContactHelper extends HelperBase{
         }
     }
 
+    private void selectContactById(int id) {
+        WebElement sContact = wd.findElement(By.id(""+id+""));
+        if (!sContact.isSelected()) {
+            sContact.click();
+        }
+    }
+
 
     public void deleteSelectedContacts() {
         click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
@@ -59,25 +70,55 @@ public class ContactHelper extends HelperBase{
         wd.switchTo().alert().accept();
     }
 
-    public void initContactModification(int index) {
-        wd.findElements(By.xpath("//table[@id='maintable']//img[@title='Edit']")).get(index).click();
+    public void initContactModification(int id) {
+        WebElement sContact = wd.findElement(By.xpath("//*[@id='"+ id +"']/../..//img[@title='Edit']"));
+        if (!sContact.isSelected()) {
+            sContact.click();
+        }
+        //wd.findElements(By.xpath("//table[@id='maintable']//img[@title='Edit']")).get(index).click();
     }
 
     public void submitContactModification() {
         click(By.name("update"));
     }
 
-    public void createContact(ContactData contact, boolean b) {
-        fillContactForm(new ContactData("Andrey", "Nikolaevich", "Zakrenichnyy", "", "zik2004@mail.ru", "1234567" , "test1"), b);
+    public void create(ContactData contact, boolean b) {
+        fillContactForm(contact, b);
         submitContactCreation();
         returnToHomePage();
+    }
+
+    public void modify(int index, ContactData contact) {
+        selectContact(index);
+        initContactModification(index);
+        fillContactForm(contact, false);
+        submitContactModification();
+    }
+
+    public void delete(int index) {
+        selectContact(index);
+        deleteSelectedContacts();
+        acceptAlert();
+    }
+
+    public void delete(ContactData contact) {
+        selectContactById(contact.getId());
+        deleteSelectedContacts();
+        acceptAlert();
+    }
+
+    public void modify(ContactData contact) {
+        selectContactById(contact.getId());
+        initContactModification(contact.getId());
+        fillContactForm(contact, false);
+        submitContactModification();
     }
 
     public boolean isThereAContact() {
         return isElementPresent(By.name("selected[]"));
     }
 
-    public List<ContactData> getContactList() {
+    public List<ContactData> list() {
        List<ContactData> contacts = new ArrayList<ContactData>();
        List<WebElement> elements = wd.findElements(By.name("entry"));
 
@@ -85,9 +126,26 @@ public class ContactHelper extends HelperBase{
             List<WebElement> cells = el.findElements(By.tagName("td"));
             String lastName = cells.get(1).getText();
             String firstName = cells.get(2).getText();
-            ContactData contact = new ContactData(firstName, null , lastName , null, null, null, null);
+            ContactData contact = new ContactData().withFirstName(firstName).withLastName(lastName);
             contacts.add(contact);
         }
        return contacts;
     }
+
+    public Contacts all() {
+        Contacts contacts = new Contacts();
+        List<WebElement> elements = wd.findElements(By.name("entry"));
+
+        for (WebElement el : elements){
+            List<WebElement> cells = el.findElements(By.tagName("td"));
+            String lastName = cells.get(1).getText();
+            String firstName = cells.get(2).getText();
+            int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("id"));
+            contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
+        }
+        return contacts;
+    }
+
+
+
 }

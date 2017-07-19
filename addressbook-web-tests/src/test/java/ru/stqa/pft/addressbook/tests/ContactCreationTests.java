@@ -1,31 +1,30 @@
 package ru.stqa.pft.addressbook.tests;
 
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import java.util.Comparator;
-import java.util.List;
+import java.util.Set;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
 public class ContactCreationTests extends TestBase{
     FirefoxDriver wd;
 
     @Test
     public void testContactCreation() {
-        app.goTo().goToHomePage();
-        List<ContactData> before = app.getContactHelper().getContactList();
-        app.goTo().goToContactPage();
-        ContactData contact = new ContactData("Andrey", "Nikolaevich", "Zakrenichnyy", "", "zik2004@mail.ru", "1234567" , "test1");
-        app.getContactHelper().createContact(contact, true);
-        List<ContactData> after = app.getContactHelper().getContactList();
-        Assert.assertEquals(before.size()+1,after.size());
+        app.goTo().homePage();
+        Contacts before = app.contact().all();
+        app.goTo().contactPage();
+        ContactData contact = new ContactData().withFirstName("Andrey").withLastName("Zakrenichnyy").withMiddleName("Nikolaevich").withEmail("zik2004@mail.ru").withGroup("test01").withPhone("1234567");
+        app.contact().create(contact, true);
+        Contacts after = app.contact().all();
+        assertThat(before.size()+1, equalTo(after.size()));
 
-        before.add(contact);
-        Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(),c2.getId());
-        before.sort(byId);
-        after.sort(byId);
-        Assert.assertEquals(before,after);
+        contact.withId(after.stream().mapToInt((g)-> g.getId()).max().getAsInt());
+        assertThat(before, equalTo(after.withAdded(contact)));
     }
 
 }

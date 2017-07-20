@@ -29,7 +29,7 @@ public class Contacts extends ForwardingSet<ContactData> {
         return contacts;
     }
 
-    public Contacts withoutAdded(GroupData contact){
+    public Contacts withoutAdded(ContactData contact){
         Contacts contacts = new Contacts(this);
         contacts.remove(contact);
         return contacts;

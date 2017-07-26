@@ -24,6 +24,10 @@ public class HelperBase {
         }
     }
 
+    protected String get(By locator){
+        return wd.findElement(locator).getAttribute("value");
+    }
+
     protected void click(By locator) {
         wd.findElement(locator).click();
     }

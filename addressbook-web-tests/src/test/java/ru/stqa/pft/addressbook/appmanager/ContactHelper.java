@@ -38,8 +38,9 @@ public class ContactHelper extends HelperBase{
         type(By.name("lastname"),contactData.getLastName());
         type(By.name("address"),contactData.getAddress());
         type(By.name("email"),contactData.getEmail());
-        type(By.name("home"),contactData.getPhone());
-
+        type(By.name("home"),contactData.getHomePhone());
+        type(By.name("mobile"),contactData.getMobilePhone());
+        type(By.name("work"),contactData.getWorkPhone());
 
         if (createion){
             new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
@@ -127,10 +128,26 @@ public class ContactHelper extends HelperBase{
             List<WebElement> cells = el.findElements(By.tagName("td"));
             String lastName = cells.get(1).getText();
             String firstName = cells.get(2).getText();
+            String email = cells.get(4).getText();
+            String address = cells.get(3).getText();
+            String allphones = cells.get(5).getText();
             int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("id"));
-            contactCache.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
+            contactCache.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName).withAllPhones(allphones).withAddress(address).withEmail(email));
         }
         return new Contacts(contactCache);
     }
 
-}
+    public ContactData infoFromEditForm(ContactData contact) {
+        selectContactById(contact.getId());
+        initContactModification(contact.getId());
+        String firstname = get(By.name("firstname"));
+        String lastname = get(By.name("lastname"));
+        String home = get(By.name("home"));
+        String mobile = get(By.name("mobile"));
+        String work = get(By.name("work"));
+        String email = get(By.name("email"));
+        String address = get(By.name("address"));
+        return new ContactData().withId(contact.getId()).withFirstName(firstname).withLastName(lastname).withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work).withEmail(email).withAddress(address);
+    }
+
+   }

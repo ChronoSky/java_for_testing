@@ -11,7 +11,6 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
 public class ContactInformationTest extends TestBase{
-    FirefoxDriver wd;
 
     @Test
     public void testContactCreation() {

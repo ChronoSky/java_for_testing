@@ -19,7 +19,7 @@ public class ContactInformationTest extends TestBase{
         ContactData contact = app.contact().all().iterator().next();
         ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
 
-        assertThat(contact.getAllPhones(), equalTo(mergePhones(contactInfoFromEditForm)));
+        assertThat(contact.getAllPhones(), equalTo(cleaned(mergePhones(contactInfoFromEditForm))));
         assertThat(contact.getEmail(), equalTo(contactInfoFromEditForm.getEmail()));
         assertThat(contact.getAddress(), equalTo(contactInfoFromEditForm.getAddress()));
     }
@@ -28,5 +28,9 @@ public class ContactInformationTest extends TestBase{
         String result = "";
         return Arrays.asList(contactInfoFromEditForm.getHomePhone(), contactInfoFromEditForm.getMobilePhone(), contactInfoFromEditForm.getWorkPhone())
                 .stream().filter((s)-> !s.equals("")).collect(Collectors.joining("\n"));
+    }
+
+    public String cleaned(String phone){
+        return phone.replaceAll("[-()]", "");
     }
 }

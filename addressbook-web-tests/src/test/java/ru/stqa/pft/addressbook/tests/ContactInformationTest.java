@@ -24,13 +24,14 @@ public class ContactInformationTest extends TestBase{
         assertThat(contact.getAddress(), equalTo(contactInfoFromEditForm.getAddress()));
     }
 
+    public String cleaned(String phone){
+        return phone.replaceAll("[-()]", "");
+    }
+
     private String mergePhones(ContactData contactInfoFromEditForm) {
         String result = "";
         return Arrays.asList(contactInfoFromEditForm.getHomePhone(), contactInfoFromEditForm.getMobilePhone(), contactInfoFromEditForm.getWorkPhone())
                 .stream().filter((s)-> !s.equals("")).collect(Collectors.joining("\n"));
     }
 
-    public String cleaned(String phone){
-        return phone.replaceAll("[-()]", "");
-    }
 }

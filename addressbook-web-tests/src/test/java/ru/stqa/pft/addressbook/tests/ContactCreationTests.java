@@ -17,7 +17,8 @@ public class ContactCreationTests extends TestBase{
         app.goTo().contactPage();
         File photo = new File("src/test/resources/smile.png");
         ContactData contact = new ContactData().withFirstName("Andrey").withLastName("Zakrenichnyy").withMiddleName("Nikolaevich")
-                .withEmail("zik2004@mail.ru").withGroup("test01").withHomePhone("1234567").withMobilePhone("89261234567").withWorkPhone("1234").withPhoto(photo);
+                .withGroup("test01").withHomePhone("1234567").withMobilePhone("89261234567").withWorkPhone("1234")
+                .withEmail("qwerty1@mail.ru").withEmail2("qwerty1@mail.ru").withEmail3("qwerty3@mail.ru").withPhoto(photo);
 
         app.contact().create(contact, true);
         assertThat(app.contact().count(), equalTo(before.size()+1));

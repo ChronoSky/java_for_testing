@@ -38,6 +38,8 @@ public class ContactHelper extends HelperBase{
         type(By.name("lastname"),contactData.getLastName());
         type(By.name("address"),contactData.getAddress());
         type(By.name("email"),contactData.getEmail());
+        type(By.name("email2"),contactData.getEmail2());
+        type(By.name("email3"),contactData.getEmail3());
         type(By.name("home"),contactData.getHomePhone());
         type(By.name("mobile"),contactData.getMobilePhone());
         type(By.name("work"),contactData.getWorkPhone());
@@ -129,11 +131,11 @@ public class ContactHelper extends HelperBase{
             List<WebElement> cells = el.findElements(By.tagName("td"));
             String lastName = cells.get(1).getText();
             String firstName = cells.get(2).getText();
-            String email = cells.get(4).getText();
             String address = cells.get(3).getText();
             String allphones = cells.get(5).getText();
+            String allemails = cells.get(4).getText();
             int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("id"));
-            contactCache.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName).withAllPhones(allphones).withAddress(address).withEmail(email));
+            contactCache.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName).withAllPhones(allphones).withAddress(address).withAllEmails(allemails));
         }
         return new Contacts(contactCache);
     }
@@ -147,8 +149,11 @@ public class ContactHelper extends HelperBase{
         String mobile = get(By.name("mobile"));
         String work = get(By.name("work"));
         String email = get(By.name("email"));
+        String email2 = get(By.name("email2"));
+        String email3 = get(By.name("email3"));
         String address = get(By.name("address"));
-        return new ContactData().withId(contact.getId()).withFirstName(firstname).withLastName(lastname).withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work).withEmail(email).withAddress(address);
+        return new ContactData().withId(contact.getId()).withFirstName(firstname).withLastName(lastname).withHomePhone(home).withMobilePhone(mobile).
+                withWorkPhone(work).withEmail(email).withEmail2(email2).withEmail3(email3).withAddress(address);
     }
 
    }

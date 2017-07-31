@@ -1,0 +1,29 @@
+[
+  {
+    "firstName": "Lname 0",
+    "middleName": "Mname 0",
+    "lastName": "Lname 0",
+    "address": "Moscow, st.Arbat, h. 0",
+    "homePhone": "1234560",
+    "email": "email0@mail.ru",
+    "group": "test 0"
+  },
+  {
+    "firstName": "Lname 1",
+    "middleName": "Mname 1",
+    "lastName": "Lname 1",
+    "address": "Moscow, st.Arbat, h. 1",
+    "homePhone": "1234561",
+    "email": "email1@mail.ru",
+    "group": "test 1"
+  },
+  {
+    "firstName": "Lname 2",
+    "middleName": "Mname 2",
+    "lastName": "Lname 2",
+    "address": "Moscow, st.Arbat, h. 2",
+    "homePhone": "1234562",
+    "email": "email2@mail.ru",
+    "group": "test 2"
+  }
+]

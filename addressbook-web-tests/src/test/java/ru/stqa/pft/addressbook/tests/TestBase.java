@@ -13,7 +13,8 @@ public class TestBase {
     // IE
     // CHROME
     // FIREFOX
-    protected static final ApplicationManager app = new ApplicationManager(BrowserType.CHROME);
+    // protected static final ApplicationManager app = new ApplicationManager(System.getProperty("browser", BrowserType.CHROME));
+    protected static final ApplicationManager app = new ApplicationManager();
 
     @BeforeSuite
     public void setUp() throws Exception {

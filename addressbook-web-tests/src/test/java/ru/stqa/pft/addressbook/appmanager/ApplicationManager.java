@@ -23,36 +23,24 @@ public class ApplicationManager {
     private NavigationHelper navigationHelper;
     private GroupHelper groupHelper;
     private ContactHelper contactHelper;
+    private DbHelper dbHelper;
     private String browser;
 
-//    public ApplicationManager(String browser) {
-//        this.browser = browser;
-//        properties = new Properties();
-//    }
-
-    public ApplicationManager() {
+    public ApplicationManager(String browser) {
+        this.browser = browser;
         properties = new Properties();
     }
 
     public void init() throws IOException {
         String target = System.getProperty("target","local");
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties",target))));
-        switch (properties.getProperty("web.browserName")){
-            case "Firefox":
-                wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true)); break;
-            case "Chrome":
-                wd = new ChromeDriver(); break;
-            case "IE":
-                wd = new InternetExplorerDriver(); break;
-            default:
-                wd = new ChromeDriver(); break;
+        dbHelper = new DbHelper();
+        if (Objects.equals(browser, BrowserType.FIREFOX)){
+        } else if (Objects.equals(browser, BrowserType.CHROME)){
+            wd = new ChromeDriver();
+        }else if (Objects.equals(browser, BrowserType.IE)){
+            wd = new InternetExplorerDriver();
         }
-//        if (Objects.equals(browser, BrowserType.FIREFOX)){
-//        } else if (Objects.equals(browser, BrowserType.CHROME)){
-//            wd = new ChromeDriver();
-//        }else if (Objects.equals(browser, BrowserType.IE)){
-//            wd = new InternetExplorerDriver();
-//        }
 
         wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
         wd.get(properties.getProperty("web.baseUrl"));
@@ -60,6 +48,7 @@ public class ApplicationManager {
         navigationHelper = new NavigationHelper(wd);
         sessionHelper = new SessionHelper(wd);
         contactHelper = new ContactHelper(wd);
+
         sessionHelper.login(properties.getProperty("web.adminLogin"),properties.getProperty("web.adminPassword"));
 
     }
@@ -78,5 +67,9 @@ public class ApplicationManager {
 
     public NavigationHelper goTo() {
         return navigationHelper;
+    }
+
+    public DbHelper db(){
+        return dbHelper;
     }
 }

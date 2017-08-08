@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.tests;
 
 
+import org.openqa.selenium.remote.BrowserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterSuite;
@@ -18,8 +19,8 @@ public class TestBase {
     // IE
     // CHROME
     // FIREFOX
-    // protected static final ApplicationManager app = new ApplicationManager(System.getProperty("browser", BrowserType.CHROME));
-    protected static final ApplicationManager app = new ApplicationManager();
+     protected static final ApplicationManager app = new ApplicationManager(System.getProperty("browser", BrowserType.CHROME));
+
 
     @BeforeSuite
     public void setUp() throws Exception {

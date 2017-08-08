@@ -2,40 +2,83 @@ package ru.stqa.pft.addressbook.model;
 
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 
+@Entity
+@Table(name="addressbook")
 public class ContactData {
+
     @XStreamOmitField
+    @Id
+    @Column(name="id")
     private int id = Integer.MAX_VALUE;
-    @Expose
-    private String firstName;
-    @Expose
-    private String middleName;
-    @Expose
-    private String lastName;
-    @Expose
-    private String address;
-    @Expose
-    private String homePhone;
-    @Expose
-    private String mobilePhone;
-    @Expose
-    private String workPhone;
-    @Expose
-    private String allPhones;
-    @Expose
-    private String email;
-    @Expose
-    private String email2;
-    @Expose
-    private String email3;
-    @Expose
-    private String allEmails;
-    @Expose
-    private File photo;
 
     @Expose
+    @Column(name="firstname")
+    private String firstName;
+
+    @Expose
+    @Column(name="middlename")
+    private String middleName;
+
+    @Expose
+    @Column(name="lastname")
+    private String lastName;
+
+    @Expose
+    @Column(name="address")
+    @Type(type="text")
+    private String address;
+
+    @Expose
+    @Column(name="home")
+    @Type(type="text")
+    private String homePhone;
+
+    @Expose
+    @Column(name="mobile")
+    @Type(type="text")
+    private String mobilePhone;
+
+    @Expose
+    @Column(name="work")
+    @Type(type="text")
+    private String workPhone;
+
+    @Expose
+    @Transient
+    private String allPhones;
+
+    @Expose
+    @Column(name="email")
+    @Type(type="text")
+    private String email;
+
+    @Expose
+    @Column(name="email2")
+    @Type(type="text")
+    private String email2;
+
+    @Expose
+    @Column(name="email3")
+    @Type(type="text")
+    private String email3;
+
+    @Expose
+    @Transient
+    private String allEmails;
+
+    @Expose
+    @Column(name="photo")
+    @Type(type="text")
+    private String photo;
+
+
+    @Expose
+    @Transient
     private String group;
 
     @Override
@@ -117,7 +160,9 @@ public class ContactData {
     }
 
     public File getPhoto() {
-        return photo;
+        if (photo!=null) {
+            return new File(photo);
+        } else return null;
     }
 
     public ContactData withId(int id) {
@@ -171,7 +216,7 @@ public class ContactData {
     }
 
     public ContactData withPhoto(File photo) {
-        this.photo = photo;
+        this.photo = photo.getPath();
         return this;
     }
 

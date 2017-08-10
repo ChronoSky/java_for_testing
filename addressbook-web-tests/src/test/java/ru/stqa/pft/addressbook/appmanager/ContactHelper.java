@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -46,13 +47,16 @@ public class ContactHelper extends HelperBase{
         attach(By.name("photo"), contactData.getPhoto());
 
         if (createion){
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            if (contactData.getGroups().size() > 0){
+                Assert.assertTrue(contactData.getGroups().size()==1);
+                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+            }
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
     }
 
-    private void selectContactById(int id) {
+    public void selectContactById(int id) {
         WebElement sContact = wd.findElement(By.id(""+id+""));
         if (!sContact.isSelected()) {
             sContact.click();
@@ -99,6 +103,14 @@ public class ContactHelper extends HelperBase{
         fillContactForm(contact, false);
         submitContactModification();
         contactCache = null;
+    }
+
+     public void selectGroupToAdd(GroupData group) {
+         new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(group.getName());
+     }
+
+    public void submitContactAddToGroup() {
+        click(By.name("add"));
     }
 
     public List<ContactData> list() {
@@ -156,4 +168,11 @@ public class ContactHelper extends HelperBase{
                 withWorkPhone(work).withEmail(email).withEmail2(email2).withEmail3(email3).withAddress(address);
     }
 
-   }
+    public void filterContactsByGroup(GroupData group) {
+        new Select(wd.findElement(By.name("group"))).selectByVisibleText(group.getName());
+    }
+
+    public void deleteContactFromGroup() {
+        click(By.name("remove"));
+    }
+}

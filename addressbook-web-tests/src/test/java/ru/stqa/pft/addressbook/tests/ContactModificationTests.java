@@ -6,6 +6,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.Comparator;
 import java.util.List;
@@ -18,11 +20,15 @@ public class ContactModificationTests extends TestBase{
 
     @BeforeMethod
     public void ensurePreconditions(){
-        app.goTo().homePage();
         if (app.db().contacts().size()==0){
+            if (app.db().groups().size()==0){
+                app.goTo().groupPage();
+                app.group().create(new GroupData().withName("test_01").withHeader("test_01").withFooter("test_01"));
+            }
+            Groups groups = app.db().groups();
             app.goTo().contactPage();
             app.contact().create(new ContactData().withFirstName("Andrey").withLastName("Zakrenichnyy").withMiddleName("Nikolaevich").withEmail("zik2004@mail.ru")
-                    .withGroup("test01").withHomePhone("1234567").withMobilePhone("89261234567").withWorkPhone("1234"), true);
+                    .inGroup(groups.iterator().next()).withHomePhone("1234567").withMobilePhone("89261234567").withWorkPhone("1234"), true);
         }
     }
 

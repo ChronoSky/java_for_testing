@@ -28,8 +28,10 @@ public class ApplicationManager {
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
         if (Objects.equals(browser, BrowserType.FIREFOX)) {
         } else if (Objects.equals(browser, BrowserType.CHROME)) {
+            System.setProperty("webdriver.chrome.driver","src/test/resources/webdrivers/chromedriver.exe");
             wd = new ChromeDriver();
         } else if (Objects.equals(browser, BrowserType.IE)) {
+            System.setProperty("webdriver.ie.driver","src/test/resources/webdrivers/IEDriverServer.exe");
             wd = new InternetExplorerDriver();
         }
 
@@ -39,5 +41,13 @@ public class ApplicationManager {
 
     public void stop() {
         wd.quit();
+    }
+
+    public HttpSession newSession() {
+        return new HttpSession(this);
+    }
+
+    public String getProperty(String key){
+        return properties.getProperty(key);
     }
 }
